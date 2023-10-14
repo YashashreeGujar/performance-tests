@@ -1,0 +1,19 @@
+{
+  "name": "performance-metrics-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha tests/performanceMetricsTest.js"
+  },  
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.10",
+    "lighthouse": "^11.1.0",
+    "mocha": "^10.2.0",
+    "puppeteer": "^21.3.8"
+  }
+}
