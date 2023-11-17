@@ -9,7 +9,7 @@ describe('Performance Metrics Tests', function() {
     this.timeout(100000);
 
     let browser;
-    const testURL = 'https://www.bbc.co.uk/bitesize/subjects/zv48q6f'; 
+    const testURL = 'https://www.bbc.co.uk/bitesize/levels/zbr9wmn/year/zncsscw'; 
 
     before(async () => {
         browser = await puppeteer.launch();
@@ -44,7 +44,7 @@ describe('Performance Metrics Tests', function() {
     
     });
     
-    it('Should have a good Largest Contentful Paint (LCP) metric', async() => {
+   it('Should have a good Largest Contentful Paint (LCP) metric', async() => {
 
         const port = (new URL(browser.wsEndpoint())).port;
         const result = await lighthouse(testURL, {
@@ -70,4 +70,94 @@ describe('Performance Metrics Tests', function() {
     
     }); 
 
-});
+   it('Should have a good Total Blocking Time (TBT) metric as a proxy for FID', async() => {
+
+        const port = (new URL(browser.wsEndpoint())).port;
+        const result = await lighthouse(testURL, {
+            port: port,
+            onlyCategories: ['performance']
+        });
+    
+        const tbtValue = result.lhr.audits['total-blocking-time'].numericValue;
+    
+        // Displaying the TBT value and the expected threshold
+        console.log(`Measured Total Blocking Time (TBT): ${tbtValue} milliseconds`);
+        console.log("Expected TBT (as a proxy for FID) for a good user experience: 100 milliseconds or less.");
+    
+        // Check if the TBT metric meets your threshold
+        if (tbtValue <= 100) {
+            console.log("Test Passed: The TBT is within the acceptable range.");
+        } else {
+            console.log("Test Failed: The TBT is higher than the recommended value for a good user experience.");
+            console.error('Detailed Issues with TBT:', result.lhr.audits['total-blocking-time'].details);
+        }
+    
+        expect(tbtValue).to.be.lessThan(100); // Expecting it to be less than 100ms
+    
+    });
+
+     it('Should have a good Cumulative Layout Shift (CLS) metric', async() => {
+
+        const port = (new URL(browser.wsEndpoint())).port;
+        const result = await lighthouse(testURL, {
+            port: port,
+            onlyCategories: ['performance']
+        });
+    
+        const clsValue = result.lhr.audits['cumulative-layout-shift'].numericValue;
+    
+        // Displaying the CLS value and the expected threshold
+        console.log(`Measured Cumulative Layout Shift (CLS): ${clsValue}`);
+        console.log("Expected CLS for a good user experience: 0.1 or less.");
+    
+        // Check if the CLS metric meets your threshold
+        if (clsValue <= 0.1) {
+            console.log("Test Passed: The CLS is within the acceptable range.");
+        } else {
+            console.log("Test Failed: The CLS is higher than the recommended value for a good user experience.");
+            console.error('Detailed Issues with CLS:', result.lhr.audits['cumulative-layout-shift'].details);
+        }
+    
+        expect(clsValue).to.be.lessThanOrEqual(0.1); // Expecting it to be 0.1 or less
+    
+    });
+
+    it('Performance Score Based on Single Run', async () => {
+        const port = new URL(browser.wsEndpoint()).port;
+        const result = await lighthouse(testURL, {
+          port: port,
+          onlyCategories: ['performance'],
+        });
+    
+        const singleRunScore = result.lhr.categories.performance.score * 100;
+    
+        // Log the performance score based on a single run
+        console.log(`Performance Score (Single Run): ${singleRunScore}`);
+    
+        // You can also add assertions if needed
+        expect(singleRunScore).to.be.at.least(0); // Adjust the minimum score as needed
+      });
+
+      it('Average Performance Score Based on 5 Runs', async () => {
+        const numRuns = 5;
+        let totalScore = 0;
+    
+        for (let i = 0; i < numRuns; i++) {
+          const port = new URL(browser.wsEndpoint()).port;
+          const result = await lighthouse(testURL, {
+            port: port,
+            onlyCategories: ['performance'],
+          });
+    
+          const score = result.lhr.categories.performance.score * 100;
+          totalScore += score;
+        }
+    
+        const averageScore = totalScore / numRuns;
+    
+        // Log the average performance score as a number
+        console.log(averageScore);
+      });
+    
+    });
+    

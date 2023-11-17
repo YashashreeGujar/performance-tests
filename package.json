@@ -5,15 +5,20 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha tests/performanceMetricsTest.js"
-  },  
+    "test": "mocha tests/pagespeedTests.js --reporter mochawesome"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.5.1",
     "chai": "^4.3.10",
+    "dotenv": "^16.3.1",
     "lighthouse": "^11.1.0",
     "mocha": "^10.2.0",
     "puppeteer": "^21.3.8"
+  },
+  "devDependencies": {
+    "mochawesome": "^7.1.3"
   }
 }
