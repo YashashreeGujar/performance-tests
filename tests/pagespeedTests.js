@@ -1,5 +1,6 @@
 import axios from 'axios';
-import chai, { expect } from 'chai';
+import * as chai from 'chai';
+const expect = chai.expect;
 import testURLs from './testData.js';
 import dotenv from 'dotenv';
 dotenv.config();
