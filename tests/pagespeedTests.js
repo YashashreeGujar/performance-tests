@@ -11,20 +11,22 @@ describe('Performance Metrics Tests with PageSpeed Insights', function () {
 
     const apiKey = process.env.PAGE_SPEED_API_KEY;
 
-    let performanceData;
+    for (const testURL of testURLs) {
 
-    before(async () => {
-        try {
-            const response = await axios.get(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${testURLs[0]}&key=${apiKey}`);
-            performanceData = response.data.lighthouseResult.audits;
-        } catch (error) {
-            console.error(`Error fetching performance data:`, error);
-            // Handle the error, e.g., set performanceData to a default value or fail the suite.
-        }
-    });
 
-    testURLs.forEach(testURL => {
         describe(`Testing URL: ${testURL}`, function () {
+
+            let performanceData;
+
+            before ( async () => {
+                try {
+                    const response = await axios.get(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${testURL}&key=${apiKey}`);
+                    performanceData = response.data.lighthouseResult.audits;
+                } catch (error) {
+                    console.error(`Error fetching performance data:`, error);
+                    // Handle the error, e.g., set performanceData to a default value or fail the suite.
+                }    
+            })
 
             // First Contentful Paint (FCP) metric
             it('Should have a good First Contentful Paint (FCP) metric', async () => {
@@ -78,5 +80,6 @@ describe('Performance Metrics Tests with PageSpeed Insights', function () {
             });
 
         });
+    }
     });
-});
+
