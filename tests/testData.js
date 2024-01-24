@@ -10,7 +10,6 @@ const testURLs = [
     'https://www.bbc.co.uk/bitesize/levels/zbr9wmn/year/zncsscw',
     'https://www.bbc.co.uk/bitesize/study-support',
     'https://www.bbc.co.uk/bitesize/groups/cd5exmm663et',
-    'https://www.bbc.co.uk/bitesize/groups/cd5exmm663et',
     'https://www.bbc.co.uk/bitesize/groups/c306433371zt',
     'https://www.bbc.co.uk/bitesize/levels/z4kw2hv',
     'https://www.bbc.co.uk/bitesize/levels/z3g4d2p',
