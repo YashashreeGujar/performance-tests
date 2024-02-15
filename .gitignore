@@ -2,5 +2,8 @@ node_modules/
 mochawesome-report
 .env
 .DS_Store
+/reports
+/tests/*.log
+/tests/*.sh
 
 
