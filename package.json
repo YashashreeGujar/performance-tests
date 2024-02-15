@@ -5,15 +5,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha tests/pagespeedTests.js --reporter mochawesome"
+    "test": "CURRENT_TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S') && mocha tests/PerformanceTest.js --reporter mochawesome --reporter-options reportDir=reports/report-${CURRENT_TIMESTAMP},reportFilename=Bitesize_PerformanceTesting_Report_${CURRENT_TIMESTAMP},reportTitle='Bitesize Performance Testing Report',charts=true,timestampFormat='YYYY-MM-DD_HH-mm-ss'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "csv-parse": "^5.5.3",
-    "csv-parser": "^3.0.0",
-    "csv-write-stream": "^2.0.0",
     "lighthouse": "^11.1.0",
     "puppeteer": "^21.3.8"
   },
@@ -23,6 +20,7 @@
     "dotenv": "^16.3.2",
     "fs": "^0.0.1-security",
     "mocha": "^10.2.0",
+    "mocha-junit-reporter": "^2.2.1",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^4.3.0",
     "typescript": "^5.3.3"

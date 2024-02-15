@@ -1,7 +1,6 @@
 
 const testURLs = [
     'https://www.bbc.co.uk/bitesize/subjects',
-    'https://www.bbc.co.uk/bitesize/subjects',
     'https://www.bbc.co.uk/bitesize/subjects/zv48q6f',
     'https://www.test.bbc.co.uk/bitesize/preview/subjects/z6hs34j',
     'https://www.bbc.co.uk/bitesize/subjects/zxpy4wx',
