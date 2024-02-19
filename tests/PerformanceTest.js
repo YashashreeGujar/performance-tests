@@ -13,10 +13,11 @@ const FID_THRESHOLD = 100;
 const INP_THRESHOLD = 200;
 
 // Function to check actual values against expected values
-function checkPerformanceMetric(metricName, actualValue, expectedThreshold, url, diagnosticInfo) {
+function checkPerformanceMetric(metricName, actualValue, expectedThreshold, url, diagnostics) {
     let errorMessage = `${metricName} metric for ${url} is ${actualValue}. Expected: less than or equal to ${expectedThreshold}.`;
-    if (diagnosticInfo) {
-        errorMessage += ` Diagnostic Info: ${diagnosticInfo}`;
+    const diagnosticsInfo = diagnostics?.details?.items[0]
+    if (diagnosticsInfo) {
+        errorMessage += ` Diagnostic Info: ${JSON.stringify(diagnosticsInfo)}`;
     } else {
         errorMessage += ` No diagnostic information available.`;
     }
@@ -45,27 +46,27 @@ describe('Performance Metrics Tests with PageSpeed Insights API ', function () {
             
             it('Should have a good First Contentful Paint (FCP) metric', async () => {
                 const fcpValue = performanceData['first-contentful-paint'].numericValue;
-                checkPerformanceMetric('FCP', fcpValue, FCP_THRESHOLD, testURL, performanceData['first-contentful-paint'].diagnostic);
+                checkPerformanceMetric('FCP', fcpValue, FCP_THRESHOLD, testURL, performanceData.diagnostics);
             });
             it('Should have a good Largest Contentful Paint (LCP) metric', async () => {
                 const lcpValue = performanceData['largest-contentful-paint'].numericValue;
-                checkPerformanceMetric('LCP', lcpValue, LCP_THRESHOLD, testURL, performanceData['largest-contentful-paint'].diagnostic);
+                checkPerformanceMetric('LCP', lcpValue, LCP_THRESHOLD, testURL, performanceData.diagnostics);
             });
             it('Should have a good Cumulative Layout Shift (CLS) metric', async () => {
                 const clsValue = performanceData['cumulative-layout-shift'].numericValue;
-                checkPerformanceMetric('CLS', clsValue, CLS_THRESHOLD, testURL, performanceData['cumulative-layout-shift'].diagnostic);
+                checkPerformanceMetric('CLS', clsValue, CLS_THRESHOLD, testURL, performanceData.diagnostics);
             });
             it('Should have a good Total Blocking Time (TBT) metric as a proxy for FID', async () => {
                 const tbtValue = performanceData['total-blocking-time'].numericValue;
-                checkPerformanceMetric('TBT', tbtValue, TBT_THRESHOLD, testURL, performanceData['total-blocking-time'].diagnostic);
+                checkPerformanceMetric('TBT', tbtValue, TBT_THRESHOLD, testURL, performanceData.diagnostics);
             });
             it('Should have a good First Input Delay (FID) metric', async () => {
                 const fidValue = performanceData['max-potential-fid'].numericValue;
-                checkPerformanceMetric('FID', fidValue, FID_THRESHOLD, testURL, performanceData['max-potential-fid'].diagnostic);
+                checkPerformanceMetric('FID', fidValue, FID_THRESHOLD, testURL, performanceData.diagnostics);
             });
             it('Should have a good Interaction to Next Paint (INP) metric', async () => {
                 const inpValue = performanceData['interactive'].numericValue;
-                checkPerformanceMetric('INP', inpValue, INP_THRESHOLD, testURL, performanceData['interactive'].diagnostic);
+                checkPerformanceMetric('INP', inpValue, INP_THRESHOLD, testURL, performanceData.diagnostics);
             });
         });
     });
